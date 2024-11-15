@@ -39,3 +39,22 @@ if st.button("Launch Rocket!"):
         )
     )
     st.plotly_chart(fig)
+
+import numpy as np
+
+def create_earth():
+    # Create a spherical grid for Earth
+    phi = np.linspace(0, np.pi, 50)  # Latitude
+    theta = np.linspace(0, 2 * np.pi, 50)  # Longitude
+    phi, theta = np.meshgrid(phi, theta)
+    
+    # Earth's radius
+    r = 6371  # Approximate radius in km
+
+    # Convert spherical coordinates to Cartesian for 3D surface
+    x = r * np.sin(phi) * np.cos(theta)
+    y = r * np.sin(phi) * np.sin(theta)
+    z = r * np.cos(phi)
+
+    return x, y, z
+
