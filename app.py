@@ -58,3 +58,44 @@ def create_earth():
 
     return x, y, z
 
+def visualize_trajectory(results):
+    from plotly.graph_objects import Figure, Scatter3d, Surface
+
+    # Create Earth Model
+    x, y, z = create_earth()
+
+    # Plot Earth
+    fig = Figure()
+    fig.add_trace(Surface(
+        x=x, y=y, z=z,
+        colorscale="Earth",  # Earth-like texture
+        opacity=0.8,
+        showscale=False,
+    ))
+
+    # Plot Rocket Trajectory
+    fig.add_trace(Scatter3d(
+        x=results['time'],  # Rocket moving over time
+        y=results['altitude'],  # Altitude
+        z=results['velocity'],  # Velocity as a proxy for z-axis motion
+        mode='lines+markers',
+        marker=dict(size=5, color='red'),
+        line=dict(color='red', width=2),
+        name='Rocket Trajectory'
+    ))
+
+    # Set layout
+    fig.update_layout(
+        scene=dict(
+            xaxis_title='Time (s)',
+            yaxis_title='Altitude (km)',
+            zaxis_title='Velocity (m/s)',
+            aspectmode='data',
+        ),
+        title="3D Rocket Launch Simulation",
+    )
+
+    # Display with Streamlit
+    st.plotly_chart(fig)
+
+
